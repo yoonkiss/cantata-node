@@ -14,10 +14,16 @@ parser.add_option("--dest-cpu",
     dest="dest_cpu",
     help="CPU architecture to build for. Valid values are: arm, x86")
 
+parser.add_option("--with-shared",
+    action="store_true",
+    dest="with_shared",
+    help="Build with shared option. node works as a shared library")
+
 parser.add_option("--with-pie",
     action="store_true",
     dest="with_pie",
     help="Build with pie option. The executable is able to be linked dynamically")
+
 
 parser.add_option("--prefix",
     action="store",
@@ -99,6 +105,10 @@ if b(options.with_pie) == 'true':
     print 'Patching for making pie executable'
     out, error = commands.getstatusoutput('patch -p0 < ../patch-for-making-pie-executable.patch');
 
+if b(options.with_shared) == 'true':
+    print 'Patching for making shared library'
+    out, error = commands.getstatusoutput('patch -p0 < ../patch-for-making-shared-library.patch');
+   
 print 'Configuring to make file ...'
 if target_arch == 'arm':
     out, err = execute('./configure --without-snapshot --dest-cpu=arm --dest-os=linux')
