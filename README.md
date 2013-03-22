@@ -10,7 +10,20 @@ This is a guide how to compile node.js (v0.8.16-release) for arm architecture an
     * libexecinfo (FreeBSD and OpenBSD only)
 
 ### Build using build script (Ubuntu only):
-   
+    $ ./build -h
+    Usage: build [options]
+
+    Options:
+      -h, --help           show this help message and exit
+      --dest-cpu=DEST_CPU  CPU architecture to build for. Valid values are: arm,
+                           x86
+      --with-shared        Build with shared option. Node works as a shared library
+
+      --with-pie           Build with pie option. The executable is able to be
+                           linked dynamically
+      --prefix=PREFIX      Select the install prefix (defaults to
+                           ./node/out/Release)
+
     $ mkdir output
     $ ./build --dest-cpu=arm --with-pie --prefix=./output
     $ file ./output/node
@@ -32,9 +45,9 @@ Set some envirnments for cross compile:
     $ export CXX=arm-linux-gnueabi-g++
     $ export LINK=arm-linux-gnueabi-g++
 
-Set patch for making node pie executable
+Set patch for making node shared library
 
-    $ patch -p0 < ../patch-for-making-pie-executable.patch
+    $ patch -p0 < ../patch-for-making-shared-library.patch
 
 Build node
 
