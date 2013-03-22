@@ -17,6 +17,7 @@ parser.add_option("--dest-cpu",
 parser.add_option("--with-shared",
     action="store_true",
     dest="with_shared",
+	default=True,
     help="Build with shared option. node works as a shared library")
 
 parser.add_option("--with-pie",
@@ -84,7 +85,7 @@ if target_arch == 'arm':
 
 if not os.path.isdir("./node/.git"):
     print 'Cloning node git repository from github.com/joyent ...'
-    popen = subprocess.Popen('git clone https://github.com/joyent/node.git', shell=True, stdout=subprocess.PIPE)
+    popen = subprocess.Popen('git clone git://github.com/joyent/node.git', shell=True, stdout=subprocess.PIPE)
     out, error = popen.communicate()
     print out
     if error:
@@ -99,13 +100,11 @@ os.chdir("./node")
 print 'Switching to branch v0.8.16-release ...'
 out, error = commands.getstatusoutput('git checkout v0.8.16-release')
 
-with_pie = options.with_pie
-
-if b(options.with_pie) == 'true':
+if options.with_pie:
     print 'Patching for making pie executable'
     out, error = commands.getstatusoutput('patch -p0 < ../patch-for-making-pie-executable.patch');
 
-if b(options.with_shared) == 'true':
+if options.with_shared:
     print 'Patching for making shared library'
     out, error = commands.getstatusoutput('patch -p0 < ../patch-for-making-shared-library.patch');
    
@@ -118,7 +117,7 @@ print 'Building ...'
 popen = subprocess.Popen('make --jobs=8', shell=True, stdout=subprocess.PIPE)
 #out, error = commands.getstatusoutput('make --jobs=8')
 out, error = popen.communicate()
-print out,
+#print out,
 
 os.chdir("..")
 if not error:
