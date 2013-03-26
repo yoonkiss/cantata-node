@@ -1,62 +1,52 @@
-Evented I/O for V8 javascript.
+Evented I/O for V8 javascript. [![Build Status](https://secure.travis-ci.org/joyent/node.png)](http://travis-ci.org/joyent/node)
 ===
 
-This is a guide how to compile node.js (v0.8.16-release) for arm architecture and create the node executable to be able to be linked dynamically.
+### To build:
 
-### Prerequisites (Unix only):
+Prerequisites (Unix only):
 
     * Python 2.6 or 2.7
     * GNU Make 3.81 or newer
     * libexecinfo (FreeBSD and OpenBSD only)
 
-### Build using build script (Ubuntu only):
-    $ ./build -h
-    Usage: build [options]
+Unix/Macintosh:
 
-    Options:
-      -h, --help           show this help message and exit
-      --dest-cpu=DEST_CPU  CPU architecture to build for. Valid values are: arm,
-                           x86
-      --with-shared        Build with shared option. Node works as a shared library
+    ./configure
+    make
+    make install
 
-      --with-pie           Build with pie option. The executable is able to be
-                           linked dynamically
-      --prefix=PREFIX      Select the install prefix (defaults to
-                           ./node/out/Release)
+If your python binary is in a non-standard location or has a
+non-standard name, run the following instead:
 
-    $ mkdir output
-    $ ./build --dest-cpu=arm --with-pie --prefix=./output
-    $ file ./output/node
-    out/Release/node: ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), dynamically linked 
-    (uses shared libs), for GNU/Linux 2.6.15, not stripped
+    export PYTHON=/path/to/python
+    $PYTHON ./configure
+    make
+    make install
 
-### Build own your own:
+Windows:
 
-Get node Source code:
+    vcbuild.bat
 
-    $ git clone git://github.com/joyent/node.git
-    $ cd node
-    $ git checkout v0.8.16-release
+### To run the tests:
 
-Set some envirnments for cross compile:
+Unix/Macintosh:
 
-    $ export AR=arm-linux-gnueabi-ar
-    $ export CC=arm-linux-gnueabi-gcc
-    $ export CXX=arm-linux-gnueabi-g++
-    $ export LINK=arm-linux-gnueabi-g++
+    make test
 
-Set patch for making node shared library
+Windows:
 
-    $ patch -p0 < ../patch-for-making-shared-library.patch
+    vcbuild.bat test
 
-Build node
+### To build the documentation:
 
-    $ ./configure --without-snapshot --dest-cpu=arm --dest-os=linux
-    $ make --jobs=8
+    make doc
+
+### To read the documentation:
+
+    man doc/node.1
 
 Resources for Newcomers
 ---
-  - [n8.io] (http://n8.io/cross-compiling-nodejs-v0.8/)
   - [The Wiki](https://github.com/joyent/node/wiki)
   - [nodejs.org](http://nodejs.org/)
   - [how to install node.js and npm (node package manager)](http://joyeur.com/2010/12/10/installing-node-and-npm/)
