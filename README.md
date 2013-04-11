@@ -27,6 +27,10 @@ Windows:
 
     vcbuild.bat
 
+Tizen:
+	$PYTHON ./configure --without-snapshot
+	make
+
 ### To run the tests:
 
 Unix/Macintosh:

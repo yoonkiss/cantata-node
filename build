@@ -1,0 +1,12 @@
+#!/bin/sh
+
+#make clean
+#./configure --without-snapshot
+make --jobs=8
+
+echo "Args $@"
+if [ -n "$1" ]
+then
+	echo "Copy node to $1"
+	cp node $1
+fi

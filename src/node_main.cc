@@ -64,4 +64,11 @@ int wmain(int argc, wchar_t *wargv[]) {
 int main(int argc, char *argv[]) {
   return node::Start(argc, argv);
 }
+extern "C" {
+	int cantata_main( int argc, char *argv[]) {
+		return main( argc, argv );
+	}
+}
 #endif
+
+
