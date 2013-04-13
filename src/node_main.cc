@@ -61,12 +61,14 @@ int wmain(int argc, wchar_t *wargv[]) {
 }
 #else
 // UNIX
+#if __STANDALONE__
 int main(int argc, char *argv[]) {
   return node::Start(argc, argv);
 }
+#endif
 extern "C" {
 	int cantata_main( int argc, char *argv[]) {
-		return main( argc, argv );
+		return node::Start( argc, argv );
 	}
 }
 #endif

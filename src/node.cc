@@ -3001,10 +3001,6 @@ char** Init(int argc, char *argv[]) {
   }
   V8::SetFlagsFromCommandLine(&v8argc, v8argv, false);
 
-  // Fetch a reference to the main isolate, so we have a reference to it
-  // even when we need it to access it from another (debugger) thread.
-  node_isolate = Isolate::GetCurrent();
-
 #ifdef __POSIX__
   // Ignore SIGPIPE
   RegisterSignalHandler(SIGPIPE, SIG_IGN);
@@ -3019,6 +3015,10 @@ char** Init(int argc, char *argv[]) {
   uv_idle_init(uv_default_loop(), &idle_immediate_dummy);
 
   V8::SetFatalErrorHandler(node::OnFatalError);
+  
+  // Fetch a reference to the main isolate, so we have a reference to it
+  // even when we need it to access it from another (debugger) thread.
+  node_isolate = Isolate::GetCurrent();
 
   // If the --debug flag was specified then initialize the debug thread.
   if (use_debug_agent) {
